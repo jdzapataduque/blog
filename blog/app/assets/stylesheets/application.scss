@@ -8,4 +8,35 @@ a:hover
 {
 	text-decoration: none;
 }
+.body textarea
+{
+	height: 300px;
+	width: 80%;
+}
+#formu
+{
+	text-align: center;
+}
+.rojo
+{
+	color:red;
+}
+div .center
+{
+	text-align: center;
+}
+div #center
+{
+	display: inline-block;
+	margin: 1em;
+}
+#user_email,#user_password,#user_password_confirmation
+{
+	width: 30%;
+	height: 3em;	
+}
+ul
+{
+	list-style-type: none;
+}
 /* ----------------------------- */
