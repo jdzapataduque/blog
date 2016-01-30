@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160123231514) do
+ActiveRecord::Schema.define(version: 20160127023059) do
 
   create_table "articles", force: :cascade do |t|
     t.string   "title"
@@ -24,6 +24,8 @@ ActiveRecord::Schema.define(version: 20160123231514) do
     t.string   "cover_content_type"
     t.integer  "cover_file_size"
     t.datetime "cover_updated_at"
+    t.string   "state"
+    t.text     "markup_body"
   end
 
   add_index "articles", ["user_id"], name: "index_articles_on_user_id"
@@ -46,6 +48,16 @@ ActiveRecord::Schema.define(version: 20160123231514) do
   add_index "comments", ["article_id"], name: "index_comments_on_article_id"
   add_index "comments", ["user_id"], name: "index_comments_on_user_id"
 
+  create_table "has_categories", force: :cascade do |t|
+    t.integer  "article_id"
+    t.integer  "category_id"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
+  add_index "has_categories", ["article_id"], name: "index_has_categories_on_article_id"
+  add_index "has_categories", ["category_id"], name: "index_has_categories_on_category_id"
+
   create_table "users", force: :cascade do |t|
     t.string   "email",                  default: "", null: false
     t.string   "encrypted_password",     default: "", null: false
@@ -58,9 +70,9 @@ ActiveRecord::Schema.define(version: 20160123231514) do
     t.string   "current_sign_in_ip"
     t.string   "last_sign_in_ip"
     t.string   "name"
-    t.string   "permission_level"
     t.datetime "created_at",                          null: false
     t.datetime "updated_at",                          null: false
+    t.integer  "permission_level"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true

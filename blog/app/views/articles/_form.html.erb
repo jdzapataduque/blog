@@ -1,4 +1,4 @@
-<%= form_for(@article) do |f| %>
+<%= form_for(@article, html:{ id:"articles_form"}) do |f| %>
 <div>
 <% @article.errors.full_messages.each do |m|%>
 <div>
@@ -9,17 +9,37 @@
 	<br>
 	<br>
 </div>
+<div class="body">
+	<%= f.hidden_field :body, id:"body_textarea"%>
+	<%= f.hidden_field :markup_body, id:"markup-body_textarea"%>
+	<div id="epiceditor"></div>
+</div>
 <div>
-Portada:
-<div id="center">
-	
-	<%= f.file_field :cover %>
+	<label>Categorías</label>
+	<div>
+	<% @categories.each do |cat|%>
+	<%= check_box_tag "categories[]",cat.id%>
+	<%=cat.name%>
+	<% end %>
 	</div>
 </div>
-<div class="body">
-	<%= f.text_area :body, placeholder: "Ingrese Contenido"%>
-</div>
+<br>
 <div>
 	<%= f.submit "Guardar", class:"btn-lg btn-primary"%>
 </div>
+<br>
 <% end %>
+<script>
+	var editor = new EpicEditor({
+		textarea: "markup-body_textarea",
+		file:{
+			name:"nuevo_articulo"
+		}
+	});
+	editor.load();
+
+	$("#articles_form").on("submit",function  (argument) {
+		$("#body_textarea").val(editor.exportFile("nuevo_articulo","html"));
+		$("#markup-body_textarea").val(editor.exportFile("nuevo_articulo","html"));
+	});
+</script>

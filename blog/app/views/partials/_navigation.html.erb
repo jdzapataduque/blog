@@ -15,10 +15,13 @@
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
         <li><%= link_to 'Articulos' , articles_path %></li>
-        <li><%= link_to 'Crear' , root_path %></li>
+        <% @categories.each do |c| %>
+        <li><%= link_to c.name , c %></li>
+        <% end %>
       </ul>
       <ul class="nav navbar-nav navbar-right">
       <% if user_signed_in?%>
+        <li><%= link_to "Nuevo Articulo", new_article_path %></li>
         <li><%= link_to "Cerrar Sesión", destroy_user_session_path, method: :delete%></li>
         <%else%>
         <li><%= link_to "Iniciar Sesión", new_user_session_path %></li>

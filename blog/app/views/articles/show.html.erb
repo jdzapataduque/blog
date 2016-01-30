@@ -10,7 +10,7 @@ Escrito por <%= current_user.email%>
 	Visitas :<%= @article.visits_count%>
 </h4>
 </h1>
-<div> <%= @article.body %>
+<div> <%= Sanitize.fragment(@article.body, Sanitize::Config::RELAXED).html_safe %>
 </div>
 <div>
 	<h3>Comentarios</h3>

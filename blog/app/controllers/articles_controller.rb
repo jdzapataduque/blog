@@ -2,7 +2,7 @@ class ArticlesController < ApplicationController
 	before_action :authenticate_user! ,except: [:index]
 	before_action :set_article, except: [:index,:new,:create]
 	def index
-		@articles=Article.all
+		@articles=Article.paginate(page: params[:page],per_page:4).all
 	end
 	def show
 		@article.update_visits_count
@@ -10,6 +10,7 @@ class ArticlesController < ApplicationController
 	end
 	def new
 	 	@article=Article.new
+	 	@categories=Category.all
 	end
 	def edit
 	end
@@ -22,8 +23,8 @@ class ArticlesController < ApplicationController
 		end
 	end
 	def create
-		@article=current_user.articles.new(article_params)
-
+		@article =current_user.articles.new(article_params)
+		@article.categories =params[:categories]
 		if @article.save
 		redirect_to @article
 		else
@@ -44,6 +45,6 @@ class ArticlesController < ApplicationController
 
 	private
 	def article_params
-		params.require(:article).permit(:title,:body,:cover)
+		params.require(:article).permit(:title,:body,:cover,:categories,:markup_body)
 	end
 end
